@@ -1,5 +1,6 @@
 
 import pandas as pd
+'''
 import streamlit as st
 import yfinance as yf
 import plotly.graph_objs as go
@@ -8,7 +9,7 @@ import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
 from sklearn.linear_model import LinearRegression
 from sklearn.metrics import r2_score
-
+'''
 
 def criar_lista_de_acoes():
     #pass
