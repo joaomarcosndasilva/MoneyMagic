@@ -1,6 +1,6 @@
 
-'''
 import pandas as pd
+'''
 import streamlit as st
 import yfinance as yf
 import plotly.graph_objs as go
@@ -12,12 +12,12 @@ from sklearn.metrics import r2_score
 '''
 
 def criar_lista_de_acoes():
-    pass
+    #pass
     """Função que busca o arquivo csv baixado do site da B3 e lê as ações que compõe e índice retornando a lista"""
-    # acoes = pd.read_csv('ibov.csv', encoding='ISO-8859-1', sep=';')
-    # lista_acoes = acoes['IBOV - Carteira do Dia 31/07/24'].loc[:][1:-2]
-    # lista_acoes = list(lista_acoes)
-    # return lista_acoes
+    acoes = pd.read_csv('ibov.csv', encoding='ISO-8859-1', sep=';')
+    lista_acoes = acoes['IBOV - Carteira do Dia 31/07/24'].loc[:][1:-2]
+    lista_acoes = list(lista_acoes)
+    return lista_acoes
 
 def baixar_arquivos(ativo='CPLE6', periodo=2):
     pass

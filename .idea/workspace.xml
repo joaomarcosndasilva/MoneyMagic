@@ -4,8 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6ff7e9bc-ac1b-4089-9a5d-1c93d0061b19" name="Changes" comment="the thirt commit">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    <list default="true" id="6ff7e9bc-ac1b-4089-9a5d-1c93d0061b19" name="Changes" comment="the number four commit">
+      <change afterPath="$PROJECT_DIR$/ibov.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/funcoes.py" beforeDir="false" afterPath="$PROJECT_DIR$/funcoes.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -49,13 +50,17 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "main",
+    "last_opened_file_path": "/home/joao/MoneyMagic/MoneyMagic"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$" />
     </key>
@@ -100,13 +105,30 @@
       <option name="project" value="LOCAL" />
       <updated>1729439533910</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="the thirt commit">
+      <option name="closed" value="true" />
+      <created>1729439946459</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1729439946459</updated>
+    </task>
+    <task id="LOCAL-00005" summary="the number four commit">
+      <option name="closed" value="true" />
+      <created>1729439964482</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1729439964482</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="the first commit" />
     <MESSAGE value="the second commit" />
     <MESSAGE value="the thirt commit" />
-    <option name="LAST_COMMIT_MESSAGE" value="the thirt commit" />
+    <MESSAGE value="the number four commit" />
+    <option name="LAST_COMMIT_MESSAGE" value="the number four commit" />
   </component>
 </project>
