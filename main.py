@@ -1,4 +1,3 @@
-import streamlit as st
 from funcoes import *
 
 #st.set_option('deprecation.showPyplotGlobalUse', False)
@@ -8,6 +7,7 @@ lista_de_acoes = criar_lista_de_acoes()
 ################## página principal #####################################
 st.title(f"Ganhe R$ com estatística com :blue[IBOV] ")
 st.markdown("By J.Brutus :sunglasses:")
+st.error('Tive um problema com a base de dados, logo estarei corrigindo essa falha...')
 ########################## Sidebar ######################################
 st.sidebar.subheader('Selecione o ativo para análise:')
 acao = st.sidebar.selectbox(f'Selecione uma ação da lista das {len(lista_de_acoes)} do IBOV:', (lista_de_acoes),

@@ -19,114 +19,118 @@ def criar_lista_de_acoes():
     return lista_acoes
 
 def baixar_arquivos(ativo='CPLE6', periodo=2):
-    """Baixa os dados do yfinance pedindo o código do ativo e o período"""
-    codigo = yf.Ticker(f'{ativo.upper()}.SA')
-    df = codigo.history(f'{periodo}y')
-    return df
+    pass
+    # """Baixa os dados do yfinance pedindo o código do ativo e o período"""
+    # codigo = yf.Ticker(f'{ativo.upper()}.SA')
+    # df = codigo.history(f'{periodo}y')
+    # return df
 
 def criar_bandas_bollinger(ativo='VALE3', periodo=5):
     """Cria bandas de bollinger usando a função baixar arquivos"""
-    # faz o cálculo das bandas de bollinger
-    df = baixar_arquivos(ativo, periodo)
-    df['Media'] = df['Close'].rolling(window=20).mean()
-    df['Desvio'] = df['Close'].rolling(window=20).std()
-
-    df['Banda Superior'] = df['Media'] + 2 * df['Desvio']
-    df['Banda Inferior'] = df['Media'] - 2 * df['Desvio']
-    df = df.drop(['Dividends', 'Stock Splits'], axis=1)
-    df = df.dropna()
-    gatilhos = df[df['Close'] <= df['Banda Inferior']]
-
-    fig = go.Figure(data=[go.Candlestick(x=df.index, open=df['Open'], high=df['High'], low=df['Low'], close=df['Close'], name='Cotação')])
-    #fig = go.Figure(go.Scatter(x=df.index, y=df['Close'], line_color='black', name='Fechamento'))
-    fig.add_trace(go.Scatter(x=df.index, y=df['Banda Superior'], name="Banda Superior", line_color='green'))
-    fig.add_trace(go.Scatter(x=df.index, y=df['Banda Inferior'], name='Banda Inferior', line_color='green'))
-    fig.add_trace(go.Scatter(x=df.index, y=df['Media'], name='Média 20', line_color='orange'))
-    fig.add_trace(go.Scatter(x=gatilhos.index, y=gatilhos['Close'], line_color='purple', name='Compra', mode='markers'))
-    fig.update_layout(title_text=f"Indicador Bandas de Bollinger de {ativo}", xaxis_rangeslider_visible=False)
-    st.plotly_chart(fig)
-
-    st.text_area(
-        "Uma breve explicação sobre as bandas de Bollinger: :sunglasses:",
-        "Nossas queridas Bandas de Bollinger são compostas de uma média móvel de 20 períodos e 2 desvios  também de 20 períodos "
-        "onde a méida é a linha laranja do meio e os desvios são são as bandas superior e inferior."
-        "\nRepare que o preço tem alta probabilidade de se movimentar próximo as bandas!"
-        "\nImagine quanto dinheiro não podemos ganhar unindo nossas Bandas de Bollinger com outros indicadores de preço e volume?!")
+    pass
+    # # faz o cálculo das bandas de bollinger
+    # df = baixar_arquivos(ativo, periodo)
+    # df['Media'] = df['Close'].rolling(window=20).mean()
+    # df['Desvio'] = df['Close'].rolling(window=20).std()
+    #
+    # df['Banda Superior'] = df['Media'] + 2 * df['Desvio']
+    # df['Banda Inferior'] = df['Media'] - 2 * df['Desvio']
+    # df = df.drop(['Dividends', 'Stock Splits'], axis=1)
+    # df = df.dropna()
+    # gatilhos = df[df['Close'] <= df['Banda Inferior']]
+    #
+    # fig = go.Figure(data=[go.Candlestick(x=df.index, open=df['Open'], high=df['High'], low=df['Low'], close=df['Close'], name='Cotação')])
+    # #fig = go.Figure(go.Scatter(x=df.index, y=df['Close'], line_color='black', name='Fechamento'))
+    # fig.add_trace(go.Scatter(x=df.index, y=df['Banda Superior'], name="Banda Superior", line_color='green'))
+    # fig.add_trace(go.Scatter(x=df.index, y=df['Banda Inferior'], name='Banda Inferior', line_color='green'))
+    # fig.add_trace(go.Scatter(x=df.index, y=df['Media'], name='Média 20', line_color='orange'))
+    # fig.add_trace(go.Scatter(x=gatilhos.index, y=gatilhos['Close'], line_color='purple', name='Compra', mode='markers'))
+    # fig.update_layout(title_text=f"Indicador Bandas de Bollinger de {ativo}", xaxis_rangeslider_visible=False)
+    # st.plotly_chart(fig)
+    #
+    # st.text_area(
+    #     "Uma breve explicação sobre as bandas de Bollinger: :sunglasses:",
+    #     "Nossas queridas Bandas de Bollinger são compostas de uma média móvel de 20 períodos e 2 desvios  também de 20 períodos "
+    #     "onde a méida é a linha laranja do meio e os desvios são são as bandas superior e inferior."
+    #     "\nRepare que o preço tem alta probabilidade de se movimentar próximo as bandas!"
+    #     "\nImagine quanto dinheiro não podemos ganhar unindo nossas Bandas de Bollinger com outros indicadores de preço e volume?!")
 
 def criar_ifr(ativo='CPLE6', periodo=1):
     """Cria o indicador IFR """
-    df = baixar_arquivos(ativo, periodo)
-    df['retornos'] = df['Close'].pct_change()
-    df = df.dropna()
-    # separar os retornos positivos dos negativos
-    df['retornos_positivos'] = df['retornos'].apply(lambda x: x if x > 0 else 0)
-    df['retornos_negativos'] = df['retornos'].apply(lambda x: abs(x) if x < 0 else 0)
-    # calcular a média dos retornos positivos e negativos dos ultimos 22 dias
-    df['media_retornos_positivos'] = df['retornos_positivos'].rolling(window=22).mean()
-    df['media_retornos_negativos'] = df['retornos_negativos'].rolling(window=22).mean()
-    df = df.dropna()
-    # passo 6 - Calcular o RSI
-    df['RSI'] = (100 - 100 / (1 + df['media_retornos_positivos'] / df['media_retornos_negativos']))
-
-    # Cria gráfico do IFR
-    fig_ifr = make_subplots(
-        rows=3, cols=2,
-        specs=[[{"rowspan": 2, "colspan": 2}, None],
-               [None, None], [{'colspan': 2}, None]],
-    )
-    fig_ifr.add_trace(go.Candlestick(x=df.index, open=df['Open'], high=df['High'], low=df['Low'], close=df['Close'], name='Cotação'), row=1, col=1)
-    #fig_ifr.add_trace(go.Scatter(x=df.index, y=df['Close'], name="Fechamento", line_color='black'), row=1, col=1)
-    fig_ifr.add_trace(go.Scatter(x=df.index, y=df['RSI'], name="IFR", line_color='orange'), row=3, col=1)
-    fig_ifr.add_hline(y=70, line_dash="dash", line_color="red", row=3, col=1)
-    fig_ifr.add_hline(y=30, line_dash="dash", line_color="blue", row=3, col=1)
-
-    fig_ifr.update_layout(title_text=f"Indicador IFR de {ativo}", xaxis_rangeslider_visible=False)
-    st.plotly_chart(fig_ifr)
-    st.text_area(
-        "Uma breve explicação sobre as o IFR: :sunglasses:",
-        "Nosso querido indicador IFR é calculado com os retornos do períodos e uma média da janela de 20 períodos "
-        "feito algumas divisões."
-        "\nO Game com o IFR é comprar próximo a linha vermelha e vender róximo a linha azul."
-        "\nAchou difícil? Posso te mostrar como ganhamos dinheiro com ele?!")
+    pass
+    # df = baixar_arquivos(ativo, periodo)
+    # df['retornos'] = df['Close'].pct_change()
+    # df = df.dropna()
+    # # separar os retornos positivos dos negativos
+    # df['retornos_positivos'] = df['retornos'].apply(lambda x: x if x > 0 else 0)
+    # df['retornos_negativos'] = df['retornos'].apply(lambda x: abs(x) if x < 0 else 0)
+    # # calcular a média dos retornos positivos e negativos dos ultimos 22 dias
+    # df['media_retornos_positivos'] = df['retornos_positivos'].rolling(window=22).mean()
+    # df['media_retornos_negativos'] = df['retornos_negativos'].rolling(window=22).mean()
+    # df = df.dropna()
+    # # passo 6 - Calcular o RSI
+    # df['RSI'] = (100 - 100 / (1 + df['media_retornos_positivos'] / df['media_retornos_negativos']))
+    #
+    # # Cria gráfico do IFR
+    # fig_ifr = make_subplots(
+    #     rows=3, cols=2,
+    #     specs=[[{"rowspan": 2, "colspan": 2}, None],
+    #            [None, None], [{'colspan': 2}, None]],
+    # )
+    # fig_ifr.add_trace(go.Candlestick(x=df.index, open=df['Open'], high=df['High'], low=df['Low'], close=df['Close'], name='Cotação'), row=1, col=1)
+    # #fig_ifr.add_trace(go.Scatter(x=df.index, y=df['Close'], name="Fechamento", line_color='black'), row=1, col=1)
+    # fig_ifr.add_trace(go.Scatter(x=df.index, y=df['RSI'], name="IFR", line_color='orange'), row=3, col=1)
+    # fig_ifr.add_hline(y=70, line_dash="dash", line_color="red", row=3, col=1)
+    # fig_ifr.add_hline(y=30, line_dash="dash", line_color="blue", row=3, col=1)
+    #
+    # fig_ifr.update_layout(title_text=f"Indicador IFR de {ativo}", xaxis_rangeslider_visible=False)
+    # st.plotly_chart(fig_ifr)
+    # st.text_area(
+    #     "Uma breve explicação sobre as o IFR: :sunglasses:",
+    #     "Nosso querido indicador IFR é calculado com os retornos do períodos e uma média da janela de 20 períodos "
+    #     "feito algumas divisões."
+    #     "\nO Game com o IFR é comprar próximo a linha vermelha e vender róximo a linha azul."
+    #     "\nAchou difícil? Posso te mostrar como ganhamos dinheiro com ele?!")
 
 def estudo_variacao_precos(ativo='vale3', periodo=5):
     """Função que cira indicadores e cria também um gráfico em matplotlib para estudo de comportamento do preços"""
-    df = baixar_arquivos(ativo, periodo)
-    df = df.drop(['Dividends', 'Stock Splits'], axis=1)
-    df['Close_change'] = df['Close'].pct_change()
-    df = df.dropna()
-    df['Close_change'].describe()
-    p25, p75 = df['Close_change'].describe()[['25%', '75%']]
-
-    pmin = max(min(df['Close_change']), p25 - 1.5 * (p75 - p25))
-    pmax = min(max(df['Close_change']), p75 + 1.5 * (p75 - p25))
-
-    st.text_area(
-        "Informação sobre o método (role para baixo para ver o estudo):",
-        "Aqui é onde analisaremos o comportamento dos preços... observe a linha azul que é onde compraremos! "
-        "Na linha vermelha é onde devemos efetuar a venda com lucro, lógico que algumas operações vamos alongar nossas"
-        " operações...", )
-
-    fig_e = make_subplots(
-        rows=2, cols=2,
-        specs=[[{"colspan": 2}, None], [{}, {}]],
-
-        subplot_titles=(f"Variação do Preço Real em R$ do ativo {ativo}", "Box Plot de Variação", f"Variação % do preço "))
-
-    fig_e.add_trace(go.Scatter(x=df.index, y=df['Close_change'], line_color='black'),
-                  row=2, col=1)
-    fig_e.add_hline(y=pmin, line_dash="dash", line_color="blue")
-    fig_e.add_hline(y=pmax, line_dash="dash", line_color="red")
-    fig_e.add_trace(go.Box(y=df['Close_change']),
-                  row=2, col=2)
-    fig_e.add_hline(y=pmin, line_dash="dash", line_color="blue")
-    fig_e.add_hline(y=pmax, line_dash="dash", line_color="red")
-    fig_e.add_trace(go.Candlestick(x=df.index, open=df['Open'], high=df['High'], low=df['Low'], close=df['Close'],
-                                   name='Cotação'), row=1, col=1)
-
-    fig_e.update_layout(showlegend=False, xaxis_rangeslider_visible=False,
-                        title_text=f"Estudo da Variação de preço do ativo {ativo} por {periodo} ano(s),")
-    st.plotly_chart(fig_e)
+    pass
+    # df = baixar_arquivos(ativo, periodo)
+    # df = df.drop(['Dividends', 'Stock Splits'], axis=1)
+    # df['Close_change'] = df['Close'].pct_change()
+    # df = df.dropna()
+    # df['Close_change'].describe()
+    # p25, p75 = df['Close_change'].describe()[['25%', '75%']]
+    #
+    # pmin = max(min(df['Close_change']), p25 - 1.5 * (p75 - p25))
+    # pmax = min(max(df['Close_change']), p75 + 1.5 * (p75 - p25))
+    #
+    # st.text_area(
+    #     "Informação sobre o método (role para baixo para ver o estudo):",
+    #     "Aqui é onde analisaremos o comportamento dos preços... observe a linha azul que é onde compraremos! "
+    #     "Na linha vermelha é onde devemos efetuar a venda com lucro, lógico que algumas operações vamos alongar nossas"
+    #     " operações...", )
+    #
+    # fig_e = make_subplots(
+    #     rows=2, cols=2,
+    #     specs=[[{"colspan": 2}, None], [{}, {}]],
+    #
+    #     subplot_titles=(f"Variação do Preço Real em R$ do ativo {ativo}", "Box Plot de Variação", f"Variação % do preço "))
+    #
+    # fig_e.add_trace(go.Scatter(x=df.index, y=df['Close_change'], line_color='black'),
+    #               row=2, col=1)
+    # fig_e.add_hline(y=pmin, line_dash="dash", line_color="blue")
+    # fig_e.add_hline(y=pmax, line_dash="dash", line_color="red")
+    # fig_e.add_trace(go.Box(y=df['Close_change']),
+    #               row=2, col=2)
+    # fig_e.add_hline(y=pmin, line_dash="dash", line_color="blue")
+    # fig_e.add_hline(y=pmax, line_dash="dash", line_color="red")
+    # fig_e.add_trace(go.Candlestick(x=df.index, open=df['Open'], high=df['High'], low=df['Low'], close=df['Close'],
+    #                                name='Cotação'), row=1, col=1)
+    #
+    # fig_e.update_layout(showlegend=False, xaxis_rangeslider_visible=False,
+    #                     title_text=f"Estudo da Variação de preço do ativo {ativo} por {periodo} ano(s),")
+    # st.plotly_chart(fig_e)
 
 def previsao_regressao_linear(ativo, periodo):
     pass
