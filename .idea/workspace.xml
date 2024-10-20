@@ -4,8 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6ff7e9bc-ac1b-4089-9a5d-1c93d0061b19" name="Changes" comment="Ultimo Commit2 20-10-2024">
-      <change beforePath="$PROJECT_DIR$/funcoes.py" beforeDir="false" afterPath="$PROJECT_DIR$/funcoes.py" afterDir="false" />
+    <list default="true" id="6ff7e9bc-ac1b-4089-9a5d-1c93d0061b19" name="Changes" comment="Ultimo Commit3 20-10-2024">
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -144,7 +144,15 @@
       <option name="project" value="LOCAL" />
       <updated>1729441391443</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="Ultimo Commit3 20-10-2024">
+      <option name="closed" value="true" />
+      <created>1729441497258</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1729441497258</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -155,6 +163,7 @@
     <MESSAGE value="the number any commit" />
     <MESSAGE value="Ultimo Commit 20-10-2024" />
     <MESSAGE value="Ultimo Commit2 20-10-2024" />
-    <option name="LAST_COMMIT_MESSAGE" value="Ultimo Commit2 20-10-2024" />
+    <MESSAGE value="Ultimo Commit3 20-10-2024" />
+    <option name="LAST_COMMIT_MESSAGE" value="Ultimo Commit3 20-10-2024" />
   </component>
 </project>

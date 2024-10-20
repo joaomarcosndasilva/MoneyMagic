@@ -1,4 +1,5 @@
 from funcoes import *
+import streamlit as st
 
 #st.set_option('deprecation.showPyplotGlobalUse', False)
 
