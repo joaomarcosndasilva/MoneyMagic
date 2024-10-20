@@ -10,7 +10,7 @@ st.title(f"Ganhe R$ com estatística com :blue[IBOV] ")
 st.markdown("By J.Brutus :sunglasses:")
 ########################## Sidebar ######################################
 st.sidebar.subheader('Selecione o ativo para análise:')
-acao = st.sidebar.selectbox(f'Selecione uma ação da lista das tamanho da lista do IBOV:', (lista_de_acoes),
+acao = st.sidebar.selectbox(f'Selecione uma ação da lista das {len(lista_de_acoes)} do IBOV:', (lista_de_acoes),
                             help="Foi buscada no site da B3 as ações atuais que compões o índice...")
 anos = st.sidebar.slider("Selecione o tempo para análise:", 0, 10, 1)
 
